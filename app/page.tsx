@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import styled from 'styled-components';
 
 interface UserInfo {
   id: string;
@@ -8,6 +9,83 @@ interface UserInfo {
   picture: string;
   verified: boolean;
 }
+
+
+const Main = styled.main`
+  max-width: 80%;
+  margin: 0 auto;
+  padding: 32px 24px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #7c05b3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+`;
+
+const Title = styled.h1`
+  font-size: min(max(1.5rem, 4vw), 2rem);
+  margin-bottom: 15px;
+  color: #7c05b3;
+  font-weight: bold;
+  font-style: italic;
+`;
+
+const Welcome = styled.h2`
+  font-size: min(max(1.5rem, 4vw), 2rem);
+  margin-bottom: 1.5rem;
+  color: #7c05b3;
+  font-weight: bold;
+`;
+
+const ProfileImage = styled.img`
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  margin: 10px auto;
+  border: 8px solid #7c05b3;
+`;
+
+const UserInfo = styled.div`
+  background: #7c05b3;
+  padding: 10px;
+  border-radius: 8px;
+  margin: 20px 0;
+  text-align: center;
+
+  p {
+    margin: 20px 0;
+    font-size: min(max(1rem, 1.25vw), 1.5rem);
+    color: black;
+    font-weight: bold;
+    
+  }
+`;
+
+const Button = styled.button`
+  background-color: #7c05b3;
+  color: black;
+  border: none;
+  padding: 18px 12px;
+  font-size: min(max(1rem, 1.25vw), 1.5rem);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+  font-weight: bold;
+
+  &:hover {
+    background-color: #6f069f;
+  }
+`;
+
+const SignInPrompt = styled.p`
+  font-size: min(max(1rem, 1.25vw), 1.5rem);;
+  margin-bottom: 10px;
+  color: #7c05b3;
+`;
 
 export default function Home() {
   const [user, setUser] = useState<UserInfo | null>(null);
@@ -22,7 +100,6 @@ export default function Home() {
   };
 
   useEffect(() => {
-
     const storedUser = sessionStorage.getItem('user');
     if (storedUser) {
       try {
@@ -33,7 +110,6 @@ export default function Home() {
       }
       return;
     }
-
 
     const params = new URLSearchParams(window.location.search);
     const userData = params.get('user');
@@ -58,33 +134,32 @@ export default function Home() {
   }, []);
 
   return (
-      <main>
-        <h1>Google OAuth Integration</h1>
+      <Main>
+        <Title>Google OAuth Integration</Title>
 
         {user ? (
             <div>
-              <h2>Welcome, {user.name}!</h2>
+              <Welcome>Welcome, {user.name}!</Welcome>
               {user.picture && (
-                  <img
+                  <ProfileImage
                       src={user.picture}
                       alt="Profile"
                       width={200}
                       height={200}
-                      style={{ borderRadius: '50%' }}
                   />
               )}
-              <div>
+              <UserInfo>
                 <p>Email: {user.email}</p>
                 <p>Verified: {user.verified ? 'Yes' : 'No'}</p>
-              </div>
-              <button onClick={handleLogout}>Logout</button>
+              </UserInfo>
+              <Button onClick={handleLogout}>Logout</Button>
             </div>
         ) : (
             <div>
-              <p>Please sign in to continue</p>
-              <button onClick={handleLogin}>Sign in with Google</button>
+              <SignInPrompt>Please sign in to continue</SignInPrompt>
+              <Button onClick={handleLogin}>Sign in with Google</Button>
             </div>
         )}
-      </main>
+      </Main>
   );
 }
