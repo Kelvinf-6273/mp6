@@ -34,7 +34,7 @@ const Title = styled.h1`
 
 const Welcome = styled.h2`
   font-size: min(max(1.5rem, 4vw), 2rem);
-  margin-bottom: 1.5rem;
+  margin-bottom: 10px;
   color: #7c05b3;
   font-weight: bold;
 `;
@@ -71,7 +71,6 @@ const Button = styled.button`
   padding: 18px 12px;
   font-size: min(max(1rem, 1.25vw), 1.5rem);
   border-radius: 4px;
-  cursor: pointer;
   transition: background-color 0.2s;
   margin-top: 10px;
   font-weight: bold;
